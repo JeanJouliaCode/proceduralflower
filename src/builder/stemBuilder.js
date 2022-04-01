@@ -42,24 +42,21 @@ export default class Stem {
   }
 
   getLine(color, width) {
-    const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     const start = -0.5
     const end = this.options.length * lengthMultiplicator + 0.1
     const periodeNb = Math.floor(this.options.frequency * 4) * 2
     const amplitude = 0.07 * this.options.amplitude
     const step = (Math.abs(start) + end) / nbLine
+    let pathContent = ""
 
     for (var index = 0; index < nbLine; index++) {
-      const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-
-      line.setAttribute("stroke", color)
-      line.setAttribute("stroke-width", width)
-      line.setAttribute("x1", 1 + amplitude * Math.sin(((Math.PI * periodeNb) / nbLine) * index))
-      line.setAttribute("x2", 1 + amplitude * Math.sin(((Math.PI * periodeNb) / nbLine) * (index + 2)))
-      line.setAttribute("y1", start + index * step)
-      line.setAttribute("y2", start + (index + 2) * step)
-      group.appendChild(line)
+      pathContent += `${index === 0 ? "M" : "L"} ${1 + amplitude * Math.sin(((Math.PI * periodeNb) / nbLine) * index)} ${start + index * step} `
     }
-    return group
+    path.setAttribute("stroke", color)
+    path.setAttribute("fill", "transparent")
+    path.setAttribute("stroke-width", width)
+    path.setAttribute("d", `${pathContent}`)
+    return path
   }
 }
