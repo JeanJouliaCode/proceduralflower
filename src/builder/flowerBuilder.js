@@ -1,7 +1,7 @@
-const petalNumberMultiplicator = 30;
+const petalNumberMultiplicator = 20;
 const centerRadiusMultiplicator = 0.2;
 const petalLengthMultiplicator = 0.18;
-const petalWidthMultiplicator = 0.2;
+const petalWidthMultiplicator = 0.4;
 const petalColorMultiplicator = 340;
 
 export default class Flower {
@@ -26,8 +26,9 @@ export default class Flower {
         this.options[key] = options[key]
         continue
       }
-      console.error(`option: "${key}" doesn't exist`)
     }
+
+    this.flowerHeadRadius = Math.max(0.05, this.options.centerRadius * centerRadiusMultiplicator)
   }
 
   setOption(key, value) {
@@ -38,8 +39,8 @@ export default class Flower {
     console.error(`option: "${key}" doesn't exist`)
   }
 
-  getSVGGroup() {
-    const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  getSVG() {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     const petalColor1 = Math.round(this.options.petalColor1 * petalColorMultiplicator);
     const petalColor2 = Math.round(this.options.petalColor2 * petalColorMultiplicator);
     const petalLength1 = this.options.petalLength1 * petalLengthMultiplicator;
@@ -52,10 +53,12 @@ export default class Flower {
     const petals1 = this.getPetals(petalColor1, petalNumber1, petalLength1, petalWidth1);
     const petals2 = this.getPetals(petalColor2, petalNumber2, petalLength2, petalWidth2);
 
-    group.appendChild(petals1);
-    group.appendChild(petals2);
-    group.appendChild(this.getRound());
-    return group
+    svg.appendChild(petals1);
+    svg.appendChild(petals2);
+    svg.setAttribute("viewBox", `-0.5 -0.5 1 1`);
+
+    svg.appendChild(this.getRound());
+    return svg
   }
 
   getPetals(color, petalNumber, petalLength, petalWidth) {
@@ -75,21 +78,19 @@ export default class Flower {
   }
 
   getPetal(angle, petalLength, petalWidth, color = null) {
-    const radius = this.options.centerRadius * centerRadiusMultiplicator;
-
     const petal = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "ellipse"
     );
     petal.setAttribute("rx", `${petalLength}`);
     petal.setAttribute("ry", `${petalWidth}`);
-    petal.setAttribute("cx", `${petalLength - radius * 0.1}`);
+    petal.setAttribute("cx", `${petalLength - this.flowerHeadRadius * 0.1}`);
     petal.setAttribute("cy", `${0}`);
     petal.setAttribute("stroke-width", `0.005`);
     petal.setAttribute("stroke", `hsl(${color + 20}, 50%, 20%)`);
     petal.setAttribute("fill", `hsl(${color}, 50%, 50%)`);
     petal.setAttribute("transform",
-      `${`translate(${radius * Math.cos(angle)},${radius * Math.sin(angle)})`}
+      `${`translate(${this.flowerHeadRadius * Math.cos(angle)},${this.flowerHeadRadius * Math.sin(angle)})`}
       rotate(${(angle * 360) / (Math.PI * 2)})`
     );
     return petal;
@@ -118,11 +119,10 @@ export default class Flower {
   }
 
   getRound() {
-    const radius = this.options.centerRadius * centerRadiusMultiplicator;
     const round = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     const centerColor = Math.round(this.options.centerColor * petalColorMultiplicator);
 
-    round.setAttribute("r", `${radius}`);
+    round.setAttribute("r", `${this.flowerHeadRadius}`);
     round.setAttribute("cx", "0");
     round.setAttribute("cy", "0");
     round.setAttribute("fill", `hsl(${centerColor}, 50%, 50%)`);
