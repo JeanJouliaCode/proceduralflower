@@ -1,5 +1,6 @@
-const lengthMultiplicator = 1.6;
+const lengthMultiplicator = 1;
 const nbLine = 200;
+const widthMultiplicator = 1.2;
 
 export default class Stem {
   constructor(options = null) {
@@ -34,8 +35,7 @@ export default class Stem {
   getSVG() {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("viewBox", `0.5 0 1 ${this.options.length * lengthMultiplicator + 0.1}`);
-    const width = Math.max(this.options.flowerHeadRadius * this.options.width * 1.9, 0.05)
-    console.log("fff", this.options.color, this.options)
+    const width = Math.max(this.options.flowerHeadRadius * this.options.width * widthMultiplicator, 0.05)
     const color = Math.floor(this.options.color * 340)
     svg.appendChild(this.getLine(`hsl(${color + 20}, 50%, 20%)`, width))
     return svg

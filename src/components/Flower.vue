@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="flower" id="flower"></div>
-    <div class="stem" id="stem"></div>
+    <div class="flower" id="flower" ref="flower"></div>
+    <div class="stem" id="stem" ref="stem"></div>
   </div>
 </template>
 
@@ -12,38 +12,68 @@ import FlowerBuilder from '../builder/flowerBuilder'
 export default {
   props: {
     options: {
-      required: true,
+      default : ()=>{}
     },
+    optionsArray:{
+      default : ()=>[]
+    }
+  },
+  data(){
+    return {
+      optionsCpy: {}
+    }
   },
   methods: {
     buildFlower() {
-      const flowerDiv = document.getElementById("flower");
-      const stemDiv = document.getElementById("stem");
+      const flowerDiv = this.$refs.flower;
+      const stemDiv = this.$refs.stem;
 
       flowerDiv.innerHTML = "";
       stemDiv.innerHTML = "";
 
+      this.optionsCpy = this.options
+
+      if(this.optionsArray.length > 0 ){
+        this.optionsCpy = {
+          centerRadius: this.optionsArray[0],
+          petalNumber1: this.optionsArray[1],
+          petalLength1: this.optionsArray[2],
+          petalWidth1: this.optionsArray[3],
+          petalColor1: this.optionsArray[4],
+          petalNumber2: this.optionsArray[5],
+          petalLength2: this.optionsArray[6],
+          petalWidth2: this.optionsArray[7],
+          petalColor2: this.optionsArray[8],
+          centerColor: this.optionsArray[9],
+          stemColor: this.optionsArray[10],
+          stemLength: this.optionsArray[11],
+          stemWidth: this.optionsArray[12],
+          amplitude: this.optionsArray[13],
+          frequency: this.optionsArray[14],
+        }
+      }
+
       const flower = new FlowerBuilder({
-        centerRadius : this.options.centerRadius ,
-        petalNumber1 : this.options.petalNumber1 ,
-        petalLength1 : this.options.petalLength1 ,
-        petalWidth1 : this.options.petalWidth1 ,
-        petalColor1 : this.options.petalColor1 ,
-        petalNumber2 : this.options.petalNumber2 ,
-        petalLength2 : this.options.petalLength2 ,
-        petalWidth2 : this.options.petalWidth2 ,
-        petalColor2 : this.options.petalColor2 ,
-        centerColor : this.options.centerColor ,
+        centerRadius : this.optionsCpy.centerRadius ,
+        petalNumber1 : this.optionsCpy.petalNumber1 ,
+        petalLength1 : this.optionsCpy.petalLength1 ,
+        petalWidth1 : this.optionsCpy.petalWidth1 ,
+        petalColor1 : this.optionsCpy.petalColor1 ,
+        petalNumber2 : this.optionsCpy.petalNumber2 ,
+        petalLength2 : this.optionsCpy.petalLength2 ,
+        petalWidth2 : this.optionsCpy.petalWidth2 ,
+        petalColor2 : this.optionsCpy.petalColor2 ,
+        centerColor : this.optionsCpy.centerColor ,
       })
       const flowerSVG = flower.getSVG()
 
       const stem = new StemBuilder({
-        color : this.options.stemColor,
-        length : this.options.stemLength,
-        width : this.options.stemWidth,
+        color : this.optionsCpy.stemColor,
+        length : this.optionsCpy.stemLength,
+        width : this.optionsCpy.stemWidth,
         flowerHeadRadius : flower.flowerHeadRadius,
-        frequency : this.options.frequency,
-        amplitude : this.options.amplitude,
+        frequency : this.optionsCpy.frequency,
+        amplitude : this.optionsCpy.amplitude,
       })
       const stemSVG = stem.getSVG()
 
@@ -60,19 +90,21 @@ export default {
     options() {
       this.buildFlower();
     },
+    optionsArray() {
+      this.buildFlower();
+    },
   },
 };
 </script>
 
 <style scoped>
 .container {
-  width: 100px;
   overflow: visible;
+  width: 300px;
 }
 
 .flower{
   position: relative;
-  width: 300px;
   z-index: 2;
 }
 
