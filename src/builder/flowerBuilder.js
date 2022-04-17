@@ -40,7 +40,7 @@ export default class Flower {
   }
 
   getSVG() {
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "g");
     const petalColor1 = Math.round(this.options.petalColor1 * petalColorMultiplicator);
     const petalColor2 = Math.round(this.options.petalColor2 * petalColorMultiplicator);
     const petalLength1 = this.options.petalLength1 * petalLengthMultiplicator;
@@ -55,7 +55,7 @@ export default class Flower {
 
     svg.appendChild(petals1);
     svg.appendChild(petals2);
-    svg.setAttribute("viewBox", `-0.5 -0.5 1 1`);
+    //svg.setAttribute("viewBox", `-0.5 -0.5 1 1`);
 
     svg.appendChild(this.getRound());
     return svg

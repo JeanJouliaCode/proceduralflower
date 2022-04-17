@@ -27,6 +27,15 @@ export default {
     };
   },
   methods: {
+    downloadSVG() {
+      const svg = document.getElementById("flower").innerHTML;
+      const blob = new Blob([svg.toString()]);
+      const element = document.createElement("a");
+      element.download = "w3c.svg";
+      element.href = window.URL.createObjectURL(blob);
+      element.click();
+      element.remove();
+    },
     buildFlower() {
       const flowerDiv = this.$refs.flower;
       const stemDiv = this.$refs.stem;
@@ -82,8 +91,16 @@ export default {
 
       stemSVG.style.overflow = "visible";
 
-      flowerDiv.appendChild(flowerSVG);
-      stemDiv.appendChild(stemSVG);
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("viewBox", `-0.5 -0.5 1 ${1 + stem.getStemViewBox()}`);
+      svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+
+      svg.appendChild(stemSVG);
+      svg.appendChild(flowerSVG);
+
+      flowerDiv.appendChild(svg);
+      // flowerDiv.appendChild(flowerSVG);
+      // stemDiv.appendChild(stemSVG);
     },
   },
   mounted() {

@@ -33,12 +33,16 @@ export default class Stem {
   }
 
   getSVG() {
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("viewBox", `0.5 0 1 ${this.options.length * lengthMultiplicator + 0.1}`);
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    //svg.setAttribute("viewBox", `0.5 0 1 ${this.options.length * lengthMultiplicator + 0.1}`);
     const width = Math.max(this.options.flowerHeadRadius * this.options.width * widthMultiplicator, 0.05)
     const color = Math.floor(this.options.color * 340)
     svg.appendChild(this.getLine(`hsl(${color + 20}, 50%, 20%)`, width))
     return svg
+  }
+
+  getStemViewBox() {
+    return this.options.length * lengthMultiplicator + 0.1
   }
 
   getLine(color, width) {
@@ -51,7 +55,7 @@ export default class Stem {
     let pathContent = ""
 
     for (var index = 0; index < nbLine; index++) {
-      pathContent += `${index === 0 ? "M" : "L"} ${1 + amplitude * Math.sin(((Math.PI * periodeNb) / nbLine) * index)} ${start + index * step} `
+      pathContent += `${index === 0 ? "M" : "L"} ${amplitude * Math.sin(((Math.PI * periodeNb) / nbLine) * index)} ${0.5 + start + index * step} `
     }
     path.setAttribute("stroke", color)
     path.setAttribute("fill", "transparent")

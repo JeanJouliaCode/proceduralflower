@@ -8,7 +8,8 @@
         @click="reload"
       />
       <div class="flowerContainer">
-        <Flower class="flower" :options="optionJson"></Flower>
+        <Flower class="flower" :options="optionJson" ref="flower"></Flower>
+        <Button @click="download" class="button">Download svg</Button>
       </div>
       <div class="atributeContainer" :class="{ hide: !showFlower }">
         <div class="seeds-atributes">
@@ -94,6 +95,9 @@ export default {
     reload() {
       location.reload();
     },
+    download() {
+      this.$refs.flower.downloadSVG();
+    },
   },
   components: { Flower, Slider },
 };
@@ -161,5 +165,10 @@ export default {
 
 .flower{
   width: 200px;
+}
+
+.button{
+  padding: 5px;
+  background: antiquewhite;
 }
 </style>
