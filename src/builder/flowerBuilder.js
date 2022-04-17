@@ -1,4 +1,4 @@
-const petalNumberMultiplicator = 20;
+const petalNumberMultiplicator = 13;
 const centerRadiusMultiplicator = 0.2;
 const petalLengthMultiplicator = 0.18;
 const petalWidthMultiplicator = 0.4;

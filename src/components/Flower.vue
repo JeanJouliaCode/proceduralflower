@@ -2,26 +2,29 @@
   <div class="container">
     <div class="flower" id="flower" ref="flower"></div>
     <div class="stem" id="stem" ref="stem"></div>
+    <div class="pot">
+      <img src="../assets/pot.png" alt="pot" class="pot__image" />
+    </div>
   </div>
 </template>
 
 <script>
-import StemBuilder from '../builder/stemBuilder'
-import FlowerBuilder from '../builder/flowerBuilder'
+import StemBuilder from "../builder/stemBuilder";
+import FlowerBuilder from "../builder/flowerBuilder";
 
 export default {
   props: {
     options: {
-      default : ()=>{}
+      default: () => {},
     },
-    optionsArray:{
-      default : ()=>[]
-    }
+    optionsArray: {
+      default: () => [],
+    },
   },
-  data(){
+  data() {
     return {
-      optionsCpy: {}
-    }
+      optionsCpy: {},
+    };
   },
   methods: {
     buildFlower() {
@@ -31,9 +34,9 @@ export default {
       flowerDiv.innerHTML = "";
       stemDiv.innerHTML = "";
 
-      this.optionsCpy = this.options
+      this.optionsCpy = this.options;
 
-      if(this.optionsArray.length > 0 ){
+      if (this.optionsArray.length > 0) {
         this.optionsCpy = {
           centerRadius: this.optionsArray[0],
           petalNumber1: this.optionsArray[1],
@@ -50,37 +53,37 @@ export default {
           stemWidth: this.optionsArray[12],
           amplitude: this.optionsArray[13],
           frequency: this.optionsArray[14],
-        }
+        };
       }
 
       const flower = new FlowerBuilder({
-        centerRadius : this.optionsCpy.centerRadius ,
-        petalNumber1 : this.optionsCpy.petalNumber1 ,
-        petalLength1 : this.optionsCpy.petalLength1 ,
-        petalWidth1 : this.optionsCpy.petalWidth1 ,
-        petalColor1 : this.optionsCpy.petalColor1 ,
-        petalNumber2 : this.optionsCpy.petalNumber2 ,
-        petalLength2 : this.optionsCpy.petalLength2 ,
-        petalWidth2 : this.optionsCpy.petalWidth2 ,
-        petalColor2 : this.optionsCpy.petalColor2 ,
-        centerColor : this.optionsCpy.centerColor ,
-      })
-      const flowerSVG = flower.getSVG()
+        centerRadius: this.optionsCpy.centerRadius,
+        petalNumber1: this.optionsCpy.petalNumber1,
+        petalLength1: this.optionsCpy.petalLength1,
+        petalWidth1: this.optionsCpy.petalWidth1,
+        petalColor1: this.optionsCpy.petalColor1,
+        petalNumber2: this.optionsCpy.petalNumber2,
+        petalLength2: this.optionsCpy.petalLength2,
+        petalWidth2: this.optionsCpy.petalWidth2,
+        petalColor2: this.optionsCpy.petalColor2,
+        centerColor: this.optionsCpy.centerColor,
+      });
+      const flowerSVG = flower.getSVG();
 
       const stem = new StemBuilder({
-        color : this.optionsCpy.stemColor,
-        length : this.optionsCpy.stemLength,
-        width : this.optionsCpy.stemWidth,
-        flowerHeadRadius : flower.flowerHeadRadius,
-        frequency : this.optionsCpy.frequency,
-        amplitude : this.optionsCpy.amplitude,
-      })
-      const stemSVG = stem.getSVG()
+        color: this.optionsCpy.stemColor,
+        length: this.optionsCpy.stemLength,
+        width: this.optionsCpy.stemWidth,
+        flowerHeadRadius: flower.flowerHeadRadius,
+        frequency: this.optionsCpy.frequency,
+        amplitude: this.optionsCpy.amplitude,
+      });
+      const stemSVG = stem.getSVG();
 
-      stemSVG.style.overflow = "visible"
+      stemSVG.style.overflow = "visible";
 
-      flowerDiv.appendChild(flowerSVG)
-      stemDiv.appendChild(stemSVG)
+      flowerDiv.appendChild(flowerSVG);
+      stemDiv.appendChild(stemSVG);
     },
   },
   mounted() {
@@ -103,13 +106,25 @@ export default {
   width: 300px;
 }
 
-.flower{
+.flower {
   position: relative;
   z-index: 2;
 }
 
-.stem{
+.stem {
   position: relative;
   z-index: 1;
+}
+
+.pot {
+  width: 60%;
+  margin-left: 20%;
+  position: relative;
+  z-index: 3;
+  margin-top: -20px;
+}
+
+.pot__image {
+  width: 100%;
 }
 </style>

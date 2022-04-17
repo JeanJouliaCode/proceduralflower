@@ -1,6 +1,5 @@
 <template>
   <div>
-    <label for="myRange">{{ label }}</label>
     <input
       type="range"
       min="0"
@@ -9,6 +8,7 @@
       id="myRange"
       v-model="model"
     />
+    <label for="myRange">{{ label }}</label>
   </div>
 </template>
 
