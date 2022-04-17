@@ -1,5 +1,9 @@
 # proceduralflower
 
+prodeduralflower is a website made to generate svg flowers. It's the sad death of an idea I had for a game. 
+
+demo link https://jeanjouliacode.github.io/proceduralflower/
+
 ## Project setup
 ```
 npm install
